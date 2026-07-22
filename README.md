@@ -122,8 +122,8 @@ Authorization: Bearer YOUR_TOKEN
 
 ## Test Account
 
-- Email: Add after deployment
-- Password: Add after deployment
+- Email: `demo@gmail.com`
+- Password: `demo1234`
 
 ## AI Tools Used
 
