@@ -116,9 +116,9 @@ Authorization: Bearer YOUR_TOKEN
 
 ## Live Links
 
-- Frontend: Not deployed yet
-- Backend API: Not deployed yet
-- API health: Not deployed yet
+- Frontend: https://careertracklite.vercel.app
+- Backend API: https://careertrackliteserver.vercel.app
+- API health: https://careertrackliteserver.vercel.app/api/health
 
 ## Test Account
 
@@ -132,7 +132,7 @@ AI tools were used for planning, frontend assistance, code review and debugging.
 ## Current Limitations
 
 - The project uses MongoDB instead of the preferred PostgreSQL database.
-- Deployment links and demonstration video are not added yet.
+- The demonstration video link is not added yet.
 - Automated tests are not added yet.
 
 ## Future Improvements
