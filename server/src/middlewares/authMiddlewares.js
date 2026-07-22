@@ -14,6 +14,10 @@ const protect = async (req, res, next) => {
       const users = db.collection("users");
       req.user = await users.findOne({ _id: new ObjectId(decoded.id) }, { projection: { password: 0 } });
 
+      if (!req.user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+
       next();
     } catch (error) {
       res.status(401).json({ message: "Not authorized, token failed" });

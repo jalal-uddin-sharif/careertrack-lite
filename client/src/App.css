@@ -335,3 +335,70 @@ input {
     font-size: 29px;
   }
 }
+
+.page-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: #526762;
+  background: #f7faf9;
+}
+
+.dashboard-page {
+  min-height: 100vh;
+  background: #f5f8f7;
+}
+
+.dashboard-nav {
+  min-height: 72px;
+  padding: 0 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dde7e4;
+  background: #ffffff;
+}
+
+.dashboard-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #153e3a;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.dashboard-nav button {
+  padding: 9px 16px;
+  border: 1px solid #cbd9d5;
+  border-radius: 7px;
+  color: #31534c;
+  background: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dashboard-welcome {
+  width: min(900px, 88%);
+  margin: 0 auto;
+  padding: 80px 0;
+}
+
+.dashboard-welcome h1 {
+  margin: 8px 0 10px;
+  color: #173b35;
+  font-size: clamp(32px, 5vw, 48px);
+}
+
+.dashboard-welcome > p:not(.eyebrow) {
+  color: #6b7e79;
+}
+
+.dashboard-note {
+  margin-top: 35px;
+  padding: 22px;
+  border: 1px solid #d6e4e0;
+  border-radius: 10px;
+  color: #48645d;
+  background: #ffffff;
+}

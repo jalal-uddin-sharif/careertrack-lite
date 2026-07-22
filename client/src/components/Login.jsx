@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
-function Login({ changePage }) {
+function Login({ changePage, onLogin }) {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -43,8 +45,8 @@ function Login({ changePage }) {
         email: data.email,
       }))
 
-      setMessage('Login successful. Welcome back!')
-      setPassword('')
+      onLogin({ _id: data._id, email: data.email })
+      navigate('/dashboard')
     } catch (err) {
       setError(err.message || 'Cannot connect to the server.')
     } finally {

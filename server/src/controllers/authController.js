@@ -1,11 +1,9 @@
 const bcrypt = require("bcryptjs");
-const { ObjectId } = require("mongodb");
 const connectDB = require("../db/connect");
 const generateToken = require("../utils/generateToken");
 
 exports.registerUser = async (req, res) => {
   const {  email, password } = req.body;
-  console.log({...req.body});
   try {
     const db = await connectDB();
     const users = db.collection("users");
@@ -29,6 +27,13 @@ exports.registerUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+exports.getCurrentUser = async (req, res) => {
+  res.json({
+    _id: req.user._id,
+    email: req.user.email
+  });
 };
 
 exports.loginUser = async (req, res) => {
