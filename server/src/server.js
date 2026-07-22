@@ -9,7 +9,9 @@ app.use(express.json())
 
 const connectDB = require("./db/connect")
 const authRoutes = require("./routes/authRoutes")
+const applicationRoutes = require ("./routes/applicationRoute")
 app.use("/api/auth", authRoutes);
+app.use("/api", applicationRoutes)
 
 //mongodb connection test
 connectDB().then(()=>{
