@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import AuthPage from './pages/AuthPage'
 import Dashboard from './pages/Dashboard'
+import Applications from './pages/Applications'
+import ApplicationForm from './pages/ApplicationForm'
 import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
@@ -71,6 +73,30 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <Dashboard user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/applications"
+          element={
+            <ProtectedRoute user={user}>
+              <Applications onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/applications/new"
+          element={
+            <ProtectedRoute user={user}>
+              <ApplicationForm onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/applications/:id/edit"
+          element={
+            <ProtectedRoute user={user}>
+              <ApplicationForm onLogout={handleLogout} />
             </ProtectedRoute>
           }
         />

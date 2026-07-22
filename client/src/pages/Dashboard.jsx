@@ -1,20 +1,18 @@
+import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar'
+
 function Dashboard({ user, onLogout }) {
   return (
     <main className="dashboard-page">
-      <nav className="dashboard-nav">
-        <div className="dashboard-brand">
-          <span className="brand-mark">C</span>
-          <span>CareerTrack</span>
-        </div>
-        <button type="button" onClick={onLogout}>Log out</button>
-      </nav>
+      <Navbar onLogout={onLogout} />
 
       <section className="dashboard-welcome">
         <p className="eyebrow">DASHBOARD</p>
         <h1>Welcome to CareerTrack</h1>
         <p>You are logged in as {user.email}.</p>
         <div className="dashboard-note">
-          Your application dashboard will be added in the next step.
+          <p>Your account is ready. Add an application to start tracking your job search.</p>
+          <Link className="primary-link" to="/applications/new">Add application</Link>
         </div>
       </section>
     </main>
