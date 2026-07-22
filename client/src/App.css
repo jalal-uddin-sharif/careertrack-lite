@@ -692,3 +692,149 @@ input {
     gap: 6px;
   }
 }
+
+.dashboard-content {
+  max-width: 1180px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #dce7e4;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.stat-card p {
+  margin: 0 0 7px;
+  color: #6b7d78;
+  font-size: 13px;
+}
+
+.stat-card strong {
+  color: #1e4038;
+  font-size: 29px;
+}
+
+.stat-dot {
+  position: absolute;
+  top: 19px;
+  right: 19px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #78958e;
+}
+
+.dot-total { background: #167c67; }
+.dot-saved { background: #7d918c; }
+.dot-applied { background: #4d86c6; }
+.dot-assessment { background: #d6a936; }
+.dot-interview { background: #8362bd; }
+.dot-rejected { background: #cc6060; }
+.dot-offer { background: #3ba16a; }
+
+.recent-section {
+  margin-top: 28px;
+  border: 1px solid #dce7e4;
+  border-radius: 11px;
+  background: #ffffff;
+}
+
+.section-heading {
+  padding: 21px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e8efed;
+}
+
+.section-heading h2 {
+  margin: 0 0 5px;
+  color: #23443c;
+  font-size: 20px;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #788984;
+  font-size: 13px;
+}
+
+.section-heading > a {
+  color: #167c67;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.recent-list {
+  padding: 0 24px;
+}
+
+.recent-item {
+  min-height: 70px;
+  display: grid;
+  grid-template-columns: 1fr 120px 100px;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid #edf2f0;
+}
+
+.recent-item:last-child {
+  border-bottom: 0;
+}
+
+.recent-item > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.recent-item strong {
+  color: #294941;
+  font-size: 14px;
+}
+
+.recent-item div span,
+.recent-date {
+  color: #778984;
+  font-size: 12px;
+}
+
+.recent-empty {
+  padding: 45px 24px;
+  text-align: center;
+}
+
+.recent-empty p {
+  margin: 0 0 20px;
+  color: #71837e;
+}
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .recent-item {
+    grid-template-columns: 1fr auto;
+    padding: 14px 0;
+  }
+
+  .recent-date {
+    display: none;
+  }
+}

@@ -164,3 +164,44 @@ exports.deleteApplication = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getDashboardStats = async (req, res) => {
+  try {
+    const db = await connectDB();
+    const applications = db.collection("applications");
+
+    const userApplications = await applications
+      .find({ userId: req.user._id })
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    const stats = {
+      total: userApplications.length,
+      saved: 0,
+      applied: 0,
+      assessment: 0,
+      interview: 0,
+      rejected: 0,
+      offer: 0
+    };
+
+    userApplications.forEach((application) => {
+      if (!application.status) {
+        return;
+      }
+
+      const statusKey = application.status.toLowerCase();
+
+      if (stats[statusKey] !== undefined) {
+        stats[statusKey] += 1;
+      }
+    });
+
+    res.json({
+      stats,
+      recentApplications: userApplications.slice(0, 5)
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
