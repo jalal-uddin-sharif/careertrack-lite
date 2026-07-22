@@ -1,8 +1,21 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const {
+  createApplication,
+  getApplications,
+  getApplicationById,
+  updateApplication,
+  deleteApplication
+} = require("../controllers/applicationController");
+const protect = require("../middlewares/authMiddlewares");
 
-const {newApplication} = require("../controllers/applicationController")
-const protect = require("../middlewares/authMiddlewares")
+const router = express.Router();
 
-router.post("/new-application",protect, newApplication)
+router.use(protect);
+
+router.post("/applications", createApplication);
+router.get("/applications", getApplications);
+router.get("/applications/:id", getApplicationById);
+router.patch("/applications/:id", updateApplication);
+router.delete("/applications/:id", deleteApplication);
+
 module.exports = router;
