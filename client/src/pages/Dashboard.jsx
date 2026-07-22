@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import StatCard from '../components/StatCard'
 import StatusBadge from '../components/StatusBadge'
+import StudentFooter from '../components/StudentFooter'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
@@ -112,6 +113,7 @@ function Dashboard({ user, onLogout }) {
           </>
         )}
       </section>
+      <StudentFooter />
     </main>
   )
 }

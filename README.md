@@ -2,6 +2,11 @@
 
 CareerTrack Lite is a simple full-stack job application tracker. Users can create an account, log in, and manage only their own job applications.
 
+## Student Information
+
+- Name: Md. Jalal Uddin Sharif
+- Student ID: `WEB9-0087`
+
 ## Features
 
 - User registration and login with JWT authentication

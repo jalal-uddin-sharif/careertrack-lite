@@ -2,6 +2,7 @@ import { useState } from 'react'
 import AuthSidePanel from '../components/AuthSidePanel'
 import Login from '../components/Login'
 import Register from '../components/Register'
+import StudentFooter from '../components/StudentFooter'
 
 function AuthPage({ startPage, onLogin }) {
   const [page, setPage] = useState(startPage)
@@ -22,7 +23,7 @@ function AuthPage({ startPage, onLogin }) {
           <Register changePage={setPage} onLogin={onLogin} />
         )}
 
-        <p className="copyright">&copy; 2026 CareerTrack Lite</p>
+        <StudentFooter />
       </section>
     </main>
   )

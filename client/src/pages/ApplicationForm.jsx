@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import StudentFooter from '../components/StudentFooter'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
@@ -192,6 +193,7 @@ function ApplicationForm({ onLogout }) {
           )}
         </div>
       </section>
+      <StudentFooter />
     </main>
   )
 }

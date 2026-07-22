@@ -905,6 +905,7 @@ input {
 }
 
 .not-found-page {
+  position: relative;
   min-height: 100vh;
   padding: 25px;
   display: grid;
@@ -922,4 +923,38 @@ input {
 .not-found-page > div > p:not(.eyebrow) {
   margin: 0 0 25px;
   color: #6b7e79;
+}
+
+.student-footer {
+  padding: 20px 5%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  color: #82918d;
+  font-size: 12px;
+  text-align: center;
+}
+
+.student-footer span + span::before {
+  content: "|";
+  margin-right: 12px;
+  color: #bdc8c5;
+}
+
+.not-found-page .student-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .student-footer {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .student-footer span + span::before {
+    display: none;
+  }
 }
