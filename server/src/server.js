@@ -11,7 +11,10 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 app.use(cors({
-  origin: process.env.CLIENT_URL
+  origin: [
+    process.env.CLIENT_URL,
+    "https://careertracklite.vercel.app"
+  ]
 }));
 app.use(express.json())
 
