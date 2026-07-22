@@ -5,6 +5,7 @@ const generateToken = require("../utils/generateToken");
 
 exports.registerUser = async (req, res) => {
   const {  email, password } = req.body;
+  console.log({...req.body});
   try {
     const db = await connectDB();
     const users = db.collection("users");
