@@ -903,3 +903,23 @@ input {
     grid-template-columns: 1fr;
   }
 }
+
+.not-found-page {
+  min-height: 100vh;
+  padding: 25px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: #f5f8f7;
+}
+
+.not-found-page h1 {
+  margin: 8px 0 10px;
+  color: #183d36;
+  font-size: clamp(38px, 7vw, 64px);
+}
+
+.not-found-page > div > p:not(.eyebrow) {
+  margin: 0 0 25px;
+  color: #6b7e79;
+}

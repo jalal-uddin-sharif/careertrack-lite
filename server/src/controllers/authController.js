@@ -4,24 +4,36 @@ const generateToken = require("../utils/generateToken");
 
 exports.registerUser = async (req, res) => {
   const {  email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ message: "Password must be at least 6 characters" });
+  }
+
+  const userEmail = email.trim().toLowerCase();
+
   try {
     const db = await connectDB();
     const users = db.collection("users");
 
-    const userExists = await users.findOne({ email });
-    // console.log(userExists);
+    const userExists = await users.findOne({ email: userEmail });
     if (userExists) return res.status(400).json({ message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await users.insertOne({
-      email,
-      password: hashedPassword
+      email: userEmail,
+      password: hashedPassword,
+      createdAt: new Date(),
+      updatedAt: new Date()
     });
 
-    res.json({
+    res.status(201).json({
       _id: result.insertedId,
-      email,
+      email: userEmail,
       token: generateToken(result.insertedId)
     });
   } catch (error) {
@@ -38,15 +50,19 @@ exports.getCurrentUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+
   try {
     const db = await connectDB();
     const users = db.collection("users");
 
-    const user = await users.findOne({ email });
+    const user = await users.findOne({ email: email.trim().toLowerCase() });
     if (user && await bcrypt.compare(password, user.password)) {
       res.json({
         _id: user._id,
-        username: user.username,
         email: user.email,
         token: generateToken(user._id)
       });

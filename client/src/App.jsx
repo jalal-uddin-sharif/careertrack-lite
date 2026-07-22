@@ -4,6 +4,7 @@ import AuthPage from './pages/AuthPage'
 import Dashboard from './pages/Dashboard'
 import Applications from './pages/Applications'
 import ApplicationForm from './pages/ApplicationForm'
+import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
@@ -101,7 +102,7 @@ function App() {
           }
         />
         <Route path="/" element={<Navigate to={user ? '/dashboard' : '/login'} replace />} />
-        <Route path="*" element={<Navigate to={user ? '/dashboard' : '/login'} replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )

@@ -1,9 +1,12 @@
 const express = require('express');
 require("dotenv").config()
-const dns = require("dns")
-dns.setServers(["1.1.1.1", "8.8.8.8"])
-const port = 3000;
 const cors = require("cors");
+const dns = require("dns");
+const port = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV !== "production") {
+  dns.setServers(["1.1.1.1", "8.8.8.8"]);
+}
 
 
 const app = express();
@@ -16,19 +19,27 @@ const connectDB = require("./db/connect")
 const authRoutes = require("./routes/authRoutes")
 const applicationRoutes = require ("./routes/applicationRoute")
 app.use("/api/auth", authRoutes);
-app.use("/api", applicationRoutes)
-
-//mongodb connection test
-connectDB().then(()=>{
-  console.log("Mongodb connection success");
-}).catch(err =>{
-  console.log("mongodb connection fail", err);
-})
 
 app.get('/', (req, res) => {
   res.send('api is running');
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.get('/api/health', (req, res) => {
+  res.json({ status: "ok", message: "CareerTrack API is running" });
 });
+
+app.use("/api", applicationRoutes)
+
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (error) {
+    console.log("Database connection failed", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
