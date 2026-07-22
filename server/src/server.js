@@ -3,8 +3,13 @@ require("dotenv").config()
 const dns = require("dns")
 dns.setServers(["1.1.1.1", "8.8.8.8"])
 const port = 3000;
+const cors = require("cors");
+
 
 const app = express();
+app.use(cors({
+  origin: process.env.CLIENT_URL
+}));
 app.use(express.json())
 
 const connectDB = require("./db/connect")
