@@ -9,6 +9,10 @@ function Applications({ onLogout }) {
   const [applications, setApplications] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState('All')
+  const [sourceFilter, setSourceFilter] = useState('All')
+  const [sortOrder, setSortOrder] = useState('newest')
 
   useEffect(() => {
     const getApplications = async () => {
@@ -65,6 +69,23 @@ function Applications({ onLogout }) {
     }
   }
 
+  const filteredApplications = applications
+    .filter((application) => {
+      const searchText = search.toLowerCase()
+      const companyMatches = application.companyName.toLowerCase().includes(searchText)
+      const titleMatches = application.jobTitle.toLowerCase().includes(searchText)
+      const statusMatches = statusFilter === 'All' || application.status === statusFilter
+      const sourceMatches = sourceFilter === 'All' || application.source === sourceFilter
+
+      return (companyMatches || titleMatches) && statusMatches && sourceMatches
+    })
+    .sort((firstApplication, secondApplication) => {
+      const firstDate = new Date(firstApplication.createdAt).getTime()
+      const secondDate = new Date(secondApplication.createdAt).getTime()
+
+      return sortOrder === 'newest' ? secondDate - firstDate : firstDate - secondDate
+    })
+
   return (
     <main className="dashboard-page">
       <Navbar onLogout={onLogout} />
@@ -90,15 +111,88 @@ function Applications({ onLogout }) {
             <Link className="primary-link" to="/applications/new">Add your first application</Link>
           </div>
         ) : (
-          <div className="application-grid">
-            {applications.map((application) => (
-              <ApplicationCard
-                key={application._id}
-                application={application}
-                onDelete={handleDelete}
-              />
-            ))}
-          </div>
+          <>
+            <div className="filter-bar">
+              <div className="search-field">
+                <label htmlFor="applicationSearch">Search</label>
+                <input
+                  id="applicationSearch"
+                  type="search"
+                  placeholder="Company or job title"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="statusFilter">Status</label>
+                <select id="statusFilter" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+                  <option>All</option>
+                  <option>Saved</option>
+                  <option>Applied</option>
+                  <option>Assessment</option>
+                  <option>Interview</option>
+                  <option>Rejected</option>
+                  <option>Offer</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="sourceFilter">Source</label>
+                <select id="sourceFilter" value={sourceFilter} onChange={(event) => setSourceFilter(event.target.value)}>
+                  <option>All</option>
+                  <option>LinkedIn</option>
+                  <option>Bdjobs</option>
+                  <option>Indeed</option>
+                  <option>Wellfound</option>
+                  <option>Facebook</option>
+                  <option>Referral</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="sortOrder">Sort by</label>
+                <select id="sortOrder" value={sortOrder} onChange={(event) => setSortOrder(event.target.value)}>
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                </select>
+              </div>
+            </div>
+
+            <p className="result-count">
+              Showing {filteredApplications.length} of {applications.length} applications
+            </p>
+
+            {filteredApplications.length === 0 ? (
+              <div className="content-state empty-state">
+                <h2>No matching applications</h2>
+                <p>Try changing your search text or filters.</p>
+                <button
+                  className="clear-filter-button"
+                  type="button"
+                  onClick={() => {
+                    setSearch('')
+                    setStatusFilter('All')
+                    setSourceFilter('All')
+                    setSortOrder('newest')
+                  }}
+                >
+                  Clear filters
+                </button>
+              </div>
+            ) : (
+              <div className="application-grid">
+                {filteredApplications.map((application) => (
+                  <ApplicationCard
+                    key={application._id}
+                    application={application}
+                    onDelete={handleDelete}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </section>
     </main>
