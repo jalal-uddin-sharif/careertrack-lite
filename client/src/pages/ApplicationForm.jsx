@@ -5,11 +5,20 @@ import StudentFooter from '../components/StudentFooter'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
+const getCurrentDate = () => {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
 const emptyForm = {
   companyName: '',
   jobTitle: '',
   jobUrl: '',
-  applicationDate: '',
+  applicationDate: getCurrentDate(),
   source: 'LinkedIn',
   status: 'Applied',
   notes: '',
