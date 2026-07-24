@@ -552,6 +552,42 @@ input {
   line-height: 1.55;
 }
 
+.quick-status {
+  margin-top: 18px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: #f4f8f7;
+}
+
+.quick-status label {
+  color: #58716a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.quick-status select {
+  height: 34px;
+  margin-left: auto;
+  padding: 0 8px;
+  border: 1px solid #c9d8d4;
+  border-radius: 6px;
+  color: #294a42;
+  background: #ffffff;
+}
+
+.quick-status span {
+  color: #748782;
+  font-size: 11px;
+}
+
+.quick-status select:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .application-actions {
   margin-top: 20px;
   display: flex;
@@ -690,6 +726,16 @@ input {
   .application-info {
     flex-direction: column;
     gap: 6px;
+  }
+
+  .quick-status {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .quick-status select {
+    width: 100%;
+    margin-left: 0;
   }
 }
 

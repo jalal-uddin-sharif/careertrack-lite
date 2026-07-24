@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
 
-function ApplicationCard({ application, onDelete }) {
+function ApplicationCard({ application, onDelete, onStatusChange, updating }) {
   return (
     <article className="application-card">
       <div className="application-card-top">
@@ -18,6 +18,24 @@ function ApplicationCard({ application, onDelete }) {
       </div>
 
       {application.notes && <p className="application-notes">{application.notes}</p>}
+
+      <div className="quick-status">
+        <label htmlFor={`status-${application._id}`}>Quick status update</label>
+        <select
+          id={`status-${application._id}`}
+          value={application.status}
+          onChange={(event) => onStatusChange(application._id, event.target.value)}
+          disabled={updating}
+        >
+          <option>Saved</option>
+          <option>Applied</option>
+          <option>Assessment</option>
+          <option>Interview</option>
+          <option>Rejected</option>
+          <option>Offer</option>
+        </select>
+        {updating && <span>Updating...</span>}
+      </div>
 
       <div className="application-actions">
         {application.jobUrl && (

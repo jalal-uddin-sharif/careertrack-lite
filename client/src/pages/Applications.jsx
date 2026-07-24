@@ -10,6 +10,8 @@ function Applications({ onLogout }) {
   const [applications, setApplications] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const [updatingApplicationId, setUpdatingApplicationId] = useState('')
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('All')
   const [sourceFilter, setSourceFilter] = useState('All')
@@ -70,6 +72,53 @@ function Applications({ onLogout }) {
     }
   }
 
+  const handleStatusChange = async (applicationId, newStatus) => {
+    const application = applications.find((item) => item._id === applicationId)
+
+    if (!application) {
+      return
+    }
+
+    setError('')
+    setSuccessMessage('')
+    setUpdatingApplicationId(applicationId)
+
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/api/applications/${applicationId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          companyName: application.companyName,
+          jobTitle: application.jobTitle,
+          jobUrl: application.jobUrl,
+          applicationDate: application.applicationDate,
+          source: application.source,
+          status: newStatus,
+          notes: application.notes,
+        }),
+      })
+
+      const updatedApplication = await response.json()
+
+      if (!response.ok) {
+        throw new Error(updatedApplication.message || 'Could not update status.')
+      }
+
+      setApplications(applications.map((item) => (
+        item._id === applicationId ? updatedApplication : item
+      )))
+      setSuccessMessage(`Application status changed to ${newStatus}.`)
+    } catch (err) {
+      setError(err.message || 'Cannot connect to the server.')
+    } finally {
+      setUpdatingApplicationId('')
+    }
+  }
+
   const filteredApplications = applications
     .filter((application) => {
       const searchText = search.toLowerCase()
@@ -102,6 +151,7 @@ function Applications({ onLogout }) {
         </div>
 
         {error && <p className="alert error-message">{error}</p>}
+        {successMessage && <p className="alert success-message">{successMessage}</p>}
 
         {loading ? (
           <div className="content-state">Loading applications...</div>
@@ -189,6 +239,8 @@ function Applications({ onLogout }) {
                     key={application._id}
                     application={application}
                     onDelete={handleDelete}
+                    onStatusChange={handleStatusChange}
+                    updating={updatingApplicationId === application._id}
                   />
                 ))}
               </div>
