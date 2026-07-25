@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import ThemeToggle from './ThemeToggle'
 
 function Navbar({ onLogout }) {
   return (
@@ -12,6 +13,7 @@ function Navbar({ onLogout }) {
         <NavLink to="/dashboard">Dashboard</NavLink>
         <NavLink to="/applications">Applications</NavLink>
         <NavLink className="add-nav-link" to="/applications/new">Add new</NavLink>
+        <ThemeToggle />
         <button type="button" onClick={onLogout}>Log out</button>
       </div>
     </nav>

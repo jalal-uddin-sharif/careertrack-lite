@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
 import StudentFooter from '../components/StudentFooter'
+import ThemeToggle from '../components/ThemeToggle'
 
 function NotFound() {
   return (
     <main className="not-found-page">
+      <div className="not-found-theme-toggle">
+        <ThemeToggle />
+      </div>
       <div>
         <p className="eyebrow">404 ERROR</p>
         <h1>Page not found</h1>
