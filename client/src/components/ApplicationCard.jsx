@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import StatusBadge from './StatusBadge'
 
-function ApplicationCard({ application, onDelete, onStatusChange, updating }) {
+function ApplicationCard({ application, onDelete, onStatusChange, onViewDetails, updating }) {
   return (
     <article className="application-card">
       <div className="application-card-top">
@@ -38,6 +38,9 @@ function ApplicationCard({ application, onDelete, onStatusChange, updating }) {
       </div>
 
       <div className="application-actions">
+        <button className="details-button" type="button" onClick={() => onViewDetails(application)}>
+          View details
+        </button>
         {application.jobUrl && (
           <a href={application.jobUrl} target="_blank" rel="noreferrer">View job post</a>
         )}

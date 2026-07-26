@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import ApplicationCard from '../components/ApplicationCard'
 import StudentFooter from '../components/StudentFooter'
+import ApplicationDetailsModal from '../components/ApplicationDetailsModal'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
@@ -16,6 +17,7 @@ function Applications({ onLogout }) {
   const [statusFilter, setStatusFilter] = useState('All')
   const [sourceFilter, setSourceFilter] = useState('All')
   const [sortOrder, setSortOrder] = useState('newest')
+  const [selectedApplication, setSelectedApplication] = useState(null)
 
   useEffect(() => {
     const getApplications = async () => {
@@ -240,6 +242,7 @@ function Applications({ onLogout }) {
                     application={application}
                     onDelete={handleDelete}
                     onStatusChange={handleStatusChange}
+                    onViewDetails={setSelectedApplication}
                     updating={updatingApplicationId === application._id}
                   />
                 ))}
@@ -249,6 +252,13 @@ function Applications({ onLogout }) {
         )}
       </section>
       <StudentFooter />
+
+      {selectedApplication && (
+        <ApplicationDetailsModal
+          application={selectedApplication}
+          onClose={() => setSelectedApplication(null)}
+        />
+      )}
     </main>
   )
 }
