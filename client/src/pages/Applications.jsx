@@ -138,6 +138,59 @@ function Applications({ onLogout }) {
       return sortOrder === 'newest' ? secondDate - firstDate : firstDate - secondDate
     })
 
+  const exportToCsv = () => {
+    const headers = [
+      'Company Name',
+      'Job Title',
+      'Job URL',
+      'Source',
+      'Status',
+      'Application Date',
+      'Notes',
+      'Created At',
+      'Updated At',
+    ]
+
+    const rows = filteredApplications.map((application) => [
+      application.companyName,
+      application.jobTitle,
+      application.jobUrl || '',
+      application.source,
+      application.status,
+      application.applicationDate,
+      application.notes || '',
+      application.createdAt || '',
+      application.updatedAt || '',
+    ])
+
+    const formatCsvValue = (value) => {
+      let safeValue = String(value)
+
+      if (/^[=+\-@]/.test(safeValue)) {
+        safeValue = `'${safeValue}`
+      }
+
+      safeValue = safeValue.replace(/"/g, '""')
+      return `"${safeValue}"`
+    }
+
+    const csvRows = [headers, ...rows]
+      .map((row) => row.map(formatCsvValue).join(','))
+      .join('\n')
+
+    const csvFile = new Blob([`\uFEFF${csvRows}`], { type: 'text/csv;charset=utf-8;' })
+    const downloadUrl = URL.createObjectURL(csvFile)
+    const downloadLink = document.createElement('a')
+    const currentDate = new Date().toISOString().split('T')[0]
+
+    downloadLink.href = downloadUrl
+    downloadLink.download = `careertrack-applications-${currentDate}.csv`
+    document.body.appendChild(downloadLink)
+    downloadLink.click()
+    document.body.removeChild(downloadLink)
+    URL.revokeObjectURL(downloadUrl)
+  }
+
   return (
     <main className="dashboard-page">
       <Navbar onLogout={onLogout} />
@@ -149,7 +202,17 @@ function Applications({ onLogout }) {
             <h1>My applications</h1>
             <p>View and manage all your job applications.</p>
           </div>
-          <Link className="primary-link" to="/applications/new">Add application</Link>
+          <div className="page-header-actions">
+            <button
+              className="export-button"
+              type="button"
+              onClick={exportToCsv}
+              disabled={filteredApplications.length === 0}
+            >
+              Export CSV
+            </button>
+            <Link className="primary-link" to="/applications/new">Add application</Link>
+          </div>
         </div>
 
         {error && <p className="alert error-message">{error}</p>}
