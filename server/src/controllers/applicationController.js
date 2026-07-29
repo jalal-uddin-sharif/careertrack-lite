@@ -67,7 +67,10 @@ exports.createApplication = async (req, res) => {
     let sheetSync;
 
     try {
-      sheetSync = await syncApplicationToSheet(application);
+      const sheetSettings = await db.collection("user_settings").findOne({
+        userId: req.user._id,
+      });
+      sheetSync = await syncApplicationToSheet(application, sheetSettings?.googleSheet);
     } catch (sheetError) {
       console.error("Google Sheet sync failed:", sheetError.message);
       sheetSync = {

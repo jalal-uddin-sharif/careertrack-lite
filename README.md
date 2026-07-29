@@ -111,19 +111,14 @@ npm run dev
 
 ## Google Sheet Sync Setup
 
-1. Create a Google Sheet and copy its ID from the URL.
-2. Open **Extensions > Apps Script** inside the sheet.
-3. Copy the code from `google-sheet/Code.gs` into the Apps Script editor.
-4. In Apps Script, open **Project Settings > Script Properties** and add:
-   - `SPREADSHEET_ID`: the Google Sheet ID
-   - `SYNC_SECRET`: a private random value
-5. Select **Deploy > New deployment > Web app**.
-6. Set **Execute as** to yourself and **Who has access** to anyone.
-7. Put the Web App URL in the server's `GOOGLE_SHEET_WEBHOOK_URL`.
-8. Put the same private value in the server's `GOOGLE_SHEET_SYNC_SECRET`.
+1. Open **Settings > Google Sheet Sync** inside CareerTrack.
+2. Copy the generated code.
+3. Open **Extensions > Apps Script** inside the Google Sheet and paste the code.
+4. Deploy it as a Web App with access set to **Anyone**.
+5. Paste the Web App URL back into Settings and save.
 
-The script checks the shared secret before writing and creates an `Applications`
-sheet with the 22 tracker columns automatically.
+The app generates a private user-specific secret inside the code. No server
+environment configuration is required.
 
 ## API Endpoints
 
@@ -137,6 +132,8 @@ sheet with the 22 tracker columns automatically.
 | GET | `/api/applications/:id` | Get one personal application |
 | PATCH | `/api/applications/:id` | Update a personal application |
 | DELETE | `/api/applications/:id` | Delete a personal application |
+| GET | `/api/settings/google-sheet` | Get Google Sheet setup |
+| PUT | `/api/settings/google-sheet` | Save Google Sheet Web App URL |
 | GET | `/api/dashboard/stats` | Get dashboard statistics |
 | GET | `/api/health` | Check API health |
 

@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Applications from './pages/Applications'
 import ApplicationForm from './pages/ApplicationForm'
 import CareerAssistant from './pages/CareerAssistant'
+import Settings from './pages/Settings'
 import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
@@ -91,6 +92,14 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <CareerAssistant onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute user={user}>
+              <Settings onLogout={handleLogout} />
             </ProtectedRoute>
           }
         />

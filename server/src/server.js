@@ -22,6 +22,7 @@ const connectDB = require("./db/connect")
 const authRoutes = require("./routes/authRoutes")
 const applicationRoutes = require ("./routes/applicationRoute")
 const careerRoutes = require("./routes/careerRoutes")
+const settingsRoutes = require("./routes/settingsRoutes")
 app.use("/api/auth", authRoutes);
 
 app.get('/', (req, res) => {
@@ -33,6 +34,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use("/api/career", careerRoutes)
+app.use("/api/settings", settingsRoutes)
 app.use("/api", applicationRoutes)
 
 const startServer = async () => {

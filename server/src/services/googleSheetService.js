@@ -1,6 +1,6 @@
-const syncApplicationToSheet = async (application) => {
-  const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL;
-  const syncSecret = process.env.GOOGLE_SHEET_SYNC_SECRET;
+const syncApplicationToSheet = async (application, settings) => {
+  const webhookUrl = settings?.webhookUrl;
+  const syncSecret = settings?.syncSecret;
 
   if (!webhookUrl || !syncSecret) {
     return {
