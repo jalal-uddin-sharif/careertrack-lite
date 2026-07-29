@@ -23,6 +23,7 @@ CareerTrack Lite is a simple full-stack job application tracker. Users can creat
 - Application assistant that fills keywords, match score, verdict and next action from a pasted JD
 - Gemini 3.6 Flash structured analysis with server-side API key protection
 - Detailed 22-field application workflow tracker and matching CSV export
+- Automatic Google Sheet row sync when a new application is saved
 - Weekly goal tracking with a maximum of three focused goals
 - Responsive pages with loading, error and empty states
 
@@ -77,6 +78,8 @@ JWT_SECRET=your_jwt_secret
 CLIENT_URL=http://localhost:5173
 GEMINI_API_KEY=your_google_ai_studio_api_key
 GEMINI_MODEL=gemini-3.6-flash
+GOOGLE_SHEET_WEBHOOK_URL=your_apps_script_web_app_url
+GOOGLE_SHEET_SYNC_SECRET=your_private_random_secret
 ```
 
 Start the backend:
@@ -105,6 +108,22 @@ Start the frontend:
 ```bash
 npm run dev
 ```
+
+## Google Sheet Sync Setup
+
+1. Create a Google Sheet and copy its ID from the URL.
+2. Open **Extensions > Apps Script** inside the sheet.
+3. Copy the code from `google-sheet/Code.gs` into the Apps Script editor.
+4. In Apps Script, open **Project Settings > Script Properties** and add:
+   - `SPREADSHEET_ID`: the Google Sheet ID
+   - `SYNC_SECRET`: a private random value
+5. Select **Deploy > New deployment > Web app**.
+6. Set **Execute as** to yourself and **Who has access** to anyone.
+7. Put the Web App URL in the server's `GOOGLE_SHEET_WEBHOOK_URL`.
+8. Put the same private value in the server's `GOOGLE_SHEET_SYNC_SECRET`.
+
+The script checks the shared secret before writing and creates an `Applications`
+sheet with the 22 tracker columns automatically.
 
 ## API Endpoints
 

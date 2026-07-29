@@ -1,6 +1,7 @@
 const { ObjectId } = require("mongodb");
 const connectDB = require("../db/connect");
 const analyzeJobWithGemini = require("../services/geminiService");
+const syncApplicationToSheet = require("../services/googleSheetService");
 
 const allowedStatuses = ["Saved", "Applied", "Assessment", "Interview", "Rejected", "Offer"];
 const allowedSources = ["LinkedIn", "Bdjobs", "Indeed", "Wellfound", "Facebook", "Referral", "Other"];
@@ -63,10 +64,22 @@ exports.createApplication = async (req, res) => {
     };
 
     const result = await applications.insertOne(application);
+    let sheetSync;
+
+    try {
+      sheetSync = await syncApplicationToSheet(application);
+    } catch (sheetError) {
+      console.error("Google Sheet sync failed:", sheetError.message);
+      sheetSync = {
+        synced: false,
+        message: sheetError.message,
+      };
+    }
 
     res.status(201).json({
       ...application,
-      _id: result.insertedId
+      _id: result.insertedId,
+      sheetSync,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
