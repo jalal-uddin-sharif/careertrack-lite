@@ -72,7 +72,6 @@ If the page cannot be accessed, respond exactly with URL_UNAVAILABLE.`,
         }],
         tools: [{ urlContext: {} }],
         generationConfig: {
-          temperature: 0,
           maxOutputTokens: 1200,
         },
       }),
@@ -103,7 +102,7 @@ const analyzeJobWithGemini = async ({ jobUrl, jobDescription, profile }) => {
     workPreference: profile.workPreference || "",
   };
 
-  const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = process.env.GEMINI_MODEL || "gemini-3.6-flash";
   const jobPageContext = await getJobPageContext({ jobUrl, model });
 
   const prompt = `
@@ -149,7 +148,6 @@ ${jobDescription}
       body: JSON.stringify({
         contents: [{ role: "user", parts: [{ text: prompt }] }],
         generationConfig: {
-          temperature: 0.1,
           responseMimeType: "application/json",
           responseSchema: analysisSchema,
         },
