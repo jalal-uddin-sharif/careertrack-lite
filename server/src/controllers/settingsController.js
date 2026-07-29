@@ -30,7 +30,7 @@ function doPost(event) {
     }
 
     const app = body.application;
-    sheet.appendRow([
+    const row = [
       safe(app.applicationDate), safe(app.companyName), safe(app.jobTitle),
       safe(app.jobUrl), safe((app.jdKeywords || []).join(", ")),
       app.matchScore || 0, safe(app.verdict), yesNo(app.applied),
@@ -39,7 +39,22 @@ function doPost(event) {
       yesNo(app.onFollowUp), safe(app.source), safe(app.resumeVersionUsed),
       yesNo(app.outreachSent), safe(app.followUpDate), safe(app.status),
       safe(app.redFlags), safe(app.nextBestAction), safe(app.notes)
-    ]);
+    ];
+
+    let existingRow = 0;
+    if (app.jobUrl && sheet.getLastRow() > 1) {
+      const links = sheet.getRange(2, 4, sheet.getLastRow() - 1, 1).getValues();
+      const foundIndex = links.findIndex(item => String(item[0]) === String(app.jobUrl));
+      if (foundIndex >= 0) {
+        existingRow = foundIndex + 2;
+      }
+    }
+
+    if (existingRow) {
+      sheet.getRange(existingRow, 1, 1, HEADERS.length).setValues([row]);
+    } else {
+      sheet.appendRow(row);
+    }
 
     return sendJson({ success: true });
   } catch (error) {

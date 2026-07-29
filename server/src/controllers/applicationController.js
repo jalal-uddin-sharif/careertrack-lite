@@ -170,7 +170,25 @@ exports.updateApplication = async (req, res) => {
       return res.status(404).json({ message: "Application not found" });
     }
 
-    res.json(result);
+    let sheetSync;
+
+    try {
+      const sheetSettings = await db.collection("user_settings").findOne({
+        userId: req.user._id,
+      });
+      sheetSync = await syncApplicationToSheet(result, sheetSettings?.googleSheet);
+    } catch (sheetError) {
+      console.error("Google Sheet sync failed:", sheetError.message);
+      sheetSync = {
+        synced: false,
+        message: sheetError.message,
+      };
+    }
+
+    res.json({
+      ...result,
+      sheetSync,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
