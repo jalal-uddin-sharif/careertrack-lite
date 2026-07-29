@@ -22,7 +22,7 @@ const syncApplicationToSheet = async (application, settings) => {
         jobTitle: application.jobTitle,
         jobUrl: application.jobUrl,
         jdKeywords: application.jdKeywords,
-        matchScore: application.matchScore,
+        matchScore: `${application.matchScore || 0}/100`,
         verdict: application.verdict,
         applied: application.applied,
         response: application.response,
