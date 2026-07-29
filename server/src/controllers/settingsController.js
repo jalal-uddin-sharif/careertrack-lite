@@ -20,8 +20,8 @@ function doPost(event) {
     }
 
     const sheetFile = SpreadsheetApp.getActiveSpreadsheet();
-    const sheet = sheetFile.getSheetByName("Applications")
-      || sheetFile.insertSheet("Applications");
+    const sheet = sheetFile.getSheetByName("CareerTrack")
+      || sheetFile.getSheets()[0];
 
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(HEADERS);

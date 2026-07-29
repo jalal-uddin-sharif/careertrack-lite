@@ -117,8 +117,9 @@ npm run dev
 4. Deploy it as a Web App with access set to **Anyone**.
 5. Paste the Web App URL back into Settings and save.
 
-The app generates a private user-specific secret inside the code. No server
-environment configuration is required.
+The app generates a private user-specific secret inside the code. It writes to
+the `CareerTrack` tab when available, otherwise it uses the first existing tab.
+No server environment configuration is required.
 
 ## API Endpoints
 
