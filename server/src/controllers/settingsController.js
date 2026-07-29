@@ -21,7 +21,7 @@ function doPost(event) {
 
     const sheetFile = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = sheetFile.getSheetByName("CareerTrack")
-      || sheetFile.getSheets()[0];
+      || sheetFile.insertSheet("CareerTrack");
 
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(HEADERS);

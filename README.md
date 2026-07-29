@@ -118,7 +118,7 @@ npm run dev
 5. Paste the Web App URL back into Settings and save.
 
 The app generates a private user-specific secret inside the code. It writes to
-the `CareerTrack` tab when available, otherwise it uses the first existing tab.
+the `CareerTrack` tab and creates that tab automatically when it does not exist.
 No server environment configuration is required.
 
 ## API Endpoints
