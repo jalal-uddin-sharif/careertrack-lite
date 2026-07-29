@@ -53,6 +53,9 @@ function Applications({ onLogout }) {
       return
     }
 
+    setError('')
+    setSuccessMessage('')
+
     try {
       const token = localStorage.getItem('token')
       const response = await fetch(`${API_URL}/api/applications/${applicationId}`, {
@@ -68,7 +71,10 @@ function Applications({ onLogout }) {
         throw new Error(data.message || 'Could not delete application.')
       }
 
-      setApplications(applications.filter((application) => application._id !== applicationId))
+      setApplications((currentApplications) => (
+        currentApplications.filter((application) => application._id !== applicationId)
+      ))
+      setSuccessMessage('Application deleted successfully.')
     } catch (err) {
       setError(err.message || 'Cannot connect to the server.')
     }
