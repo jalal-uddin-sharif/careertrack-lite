@@ -49,7 +49,7 @@ function doPost(event) {
 
 function safe(value) {
   const text = String(value || "");
-  return /^[=+\\\\-@]/.test(text) ? "'" + text : text;
+  return /^[=+@-]/.test(text) ? "'" + text : text;
 }
 
 function yesNo(value) {
