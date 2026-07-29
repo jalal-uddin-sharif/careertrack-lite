@@ -12,6 +12,7 @@ function Navbar({ onLogout }) {
       <div className="nav-links">
         <NavLink to="/dashboard">Dashboard</NavLink>
         <NavLink to="/applications">Applications</NavLink>
+        <NavLink to="/career-assistant">Career Assistant</NavLink>
         <NavLink className="add-nav-link" to="/applications/new">Add new</NavLink>
         <ThemeToggle />
         <button type="button" onClick={onLogout}>Log out</button>

@@ -21,6 +21,7 @@ app.use(express.json())
 const connectDB = require("./db/connect")
 const authRoutes = require("./routes/authRoutes")
 const applicationRoutes = require ("./routes/applicationRoute")
+const careerRoutes = require("./routes/careerRoutes")
 app.use("/api/auth", authRoutes);
 
 app.get('/', (req, res) => {
@@ -31,6 +32,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: "ok", message: "CareerTrack API is running" });
 });
 
+app.use("/api/career", careerRoutes)
 app.use("/api", applicationRoutes)
 
 const startServer = async () => {
