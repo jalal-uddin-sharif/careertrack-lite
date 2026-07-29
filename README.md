@@ -20,6 +20,8 @@ CareerTrack Lite is a simple full-stack job application tracker. Users can creat
 - Sort by newest or oldest
 - Student career profile for target roles, skills and links
 - Evidence-based job description match scan
+- Application assistant that fills keywords, match score, verdict and next action from a pasted JD
+- Detailed 22-field application workflow tracker and matching CSV export
 - Weekly goal tracking with a maximum of three focused goals
 - Responsive pages with loading, error and empty states
 

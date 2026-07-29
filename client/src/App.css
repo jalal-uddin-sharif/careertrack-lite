@@ -1672,3 +1672,69 @@ input {
     padding: 18px;
   }
 }
+
+.wide-form-card {
+  width: 100%;
+}
+
+.assistant-fill-box {
+  margin-bottom: 25px;
+  padding: 20px;
+  border: 1px solid #bfe0d6;
+  border-radius: 10px;
+  background: #f2faf7;
+}
+
+.assistant-fill-button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 7px;
+  color: #ffffff;
+  background: #21876d;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.assistant-fill-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.tracker-checks {
+  margin: 4px 0 22px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tracker-checks label {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d8e4e0;
+  border-radius: 7px;
+  color: #425b55;
+  background: #fafcfb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tracker-checks input {
+  width: 16px;
+  height: 16px;
+  accent-color: #21876d;
+}
+
+[data-theme="dark"] .assistant-fill-box,
+[data-theme="dark"] .tracker-checks label {
+  border-color: #344a44;
+  color: #c8d6d2;
+  background: #1b2b27;
+}
+
+@media (max-width: 720px) {
+  .tracker-checks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

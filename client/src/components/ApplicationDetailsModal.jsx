@@ -63,19 +63,34 @@ function ApplicationDetailsModal({ application, onClose }) {
 
         <div className="details-grid">
           <div>
-            <span>Source</span>
+            <span>Platform</span>
             <strong>{application.source}</strong>
           </div>
           <div>
-            <span>Created</span>
-            <strong>{formatDate(application.createdAt)}</strong>
+            <span>Match score</span>
+            <strong>{application.matchScore ?? 0}%</strong>
           </div>
           <div>
-            <span>Last updated</span>
-            <strong>{formatDate(application.updatedAt)}</strong>
+            <span>Verdict</span>
+            <strong>{application.verdict || 'Not checked'}</strong>
           </div>
+          <div><span>Resume used</span><strong>{application.resumeVersionUsed || 'Not set'}</strong></div>
+          <div><span>Follow-up date</span><strong>{formatDate(application.followUpDate)}</strong></div>
+          <div><span>Response</span><strong>{application.response || 'No response'}</strong></div>
         </div>
 
+        <div className="details-notes">
+          <h3>JD keywords</h3>
+          <p>{application.jdKeywords?.join(', ') || 'No keywords saved.'}</p>
+        </div>
+        <div className="details-notes">
+          <h3>Red flags</h3>
+          <p>{application.redFlags || 'No red flags saved.'}</p>
+        </div>
+        <div className="details-notes">
+          <h3>Next best action</h3>
+          <p>{application.nextBestAction || 'No next action saved.'}</p>
+        </div>
         <div className="details-notes">
           <h3>Notes</h3>
           <p>{application.notes || 'No notes added for this application.'}</p>

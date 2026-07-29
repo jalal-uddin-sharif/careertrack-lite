@@ -100,13 +100,8 @@ function Applications({ onLogout }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          companyName: application.companyName,
-          jobTitle: application.jobTitle,
-          jobUrl: application.jobUrl,
-          applicationDate: application.applicationDate,
-          source: application.source,
+          ...application,
           status: newStatus,
-          notes: application.notes,
         }),
       })
 
@@ -146,27 +141,37 @@ function Applications({ onLogout }) {
 
   const exportToCsv = () => {
     const headers = [
-      'Company Name',
-      'Job Title',
-      'Job URL',
-      'Source',
-      'Status',
-      'Application Date',
+      'Date', 'Company', 'Role', 'Job Link', 'JD Keywords', 'Match Score',
+      'Verdict', 'Applied', 'Response', 'Task Received', 'Interview Attempted',
+      'Rejected', 'Offer', 'On Follow-up', 'Platform', 'Resume Version Used',
+      'Outreach Sent', 'Follow-up Date', 'Current Stage', 'Red Flags',
+      'Next Best Action',
       'Notes',
-      'Created At',
-      'Updated At',
     ]
 
     const rows = filteredApplications.map((application) => [
+      application.applicationDate,
       application.companyName,
       application.jobTitle,
       application.jobUrl || '',
+      application.jdKeywords?.join(', ') || '',
+      application.matchScore ?? '',
+      application.verdict || '',
+      application.applied ? 'Yes' : 'No',
+      application.response || '',
+      application.taskReceived ? 'Yes' : 'No',
+      application.interviewAttempted ? 'Yes' : 'No',
+      application.rejected ? 'Yes' : 'No',
+      application.offer ? 'Yes' : 'No',
+      application.onFollowUp ? 'Yes' : 'No',
       application.source,
+      application.resumeVersionUsed || '',
+      application.outreachSent ? 'Yes' : 'No',
+      application.followUpDate || '',
       application.status,
-      application.applicationDate,
+      application.redFlags || '',
+      application.nextBestAction || '',
       application.notes || '',
-      application.createdAt || '',
-      application.updatedAt || '',
     ])
 
     const formatCsvValue = (value) => {
