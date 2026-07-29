@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const connectDB = require("../db/connect");
+const analyzeJobWithGemini = require("../services/geminiService");
 
 const allowedStatuses = ["Saved", "Applied", "Assessment", "Interview", "Rejected", "Offer"];
 const allowedSources = ["LinkedIn", "Bdjobs", "Indeed", "Wellfound", "Facebook", "Referral", "Other"];
@@ -175,22 +176,6 @@ exports.analyzeApplication = async (req, res) => {
       return res.status(400).json({ message: "Save your Career Assistant profile first" });
     }
 
-    const keywords = [
-      "javascript", "typescript", "react", "next.js", "node.js", "express",
-      "mongodb", "postgresql", "sql", "rest api", "html", "css", "tailwind",
-      "git", "github", "vite", "redux", "jwt", "authentication", "docker",
-      "aws", "jest", "cypress", "responsive design",
-    ].filter((skill) => jobDescription.toLowerCase().includes(skill));
-    const profileText = `${profile.keySkills || []} ${profile.resumeSummary || ""}`.toLowerCase();
-    const matches = keywords.filter((skill) => profileText.includes(skill));
-    const missing = keywords.filter((skill) => !profileText.includes(skill));
-    const score = keywords.length ? Math.round((matches.length / keywords.length) * 100) : 40;
-
-    let verdict = "Low ROI / Skip";
-    if (score >= 85) verdict = "Strong Apply";
-    else if (score >= 70) verdict = "Apply After Minor Tweaks";
-    else if (score >= 40) verdict = "Stretch Apply";
-
     let source = "Other";
     const url = jobUrl.toLowerCase();
     if (url.includes("linkedin")) source = "LinkedIn";
@@ -199,25 +184,28 @@ exports.analyzeApplication = async (req, res) => {
     else if (url.includes("wellfound")) source = "Wellfound";
     else if (url.includes("facebook")) source = "Facebook";
 
-    const firstLines = jobDescription.split("\n").map((line) => line.trim()).filter(Boolean);
-    const roleMatch = jobDescription.match(/(?:position|job title|role)\s*:\s*([^\n]+)/i);
-    const companyMatch = jobDescription.match(/(?:company|organization)\s*:\s*([^\n]+)/i);
-    const seniorRole = /\b(senior|lead|manager|[3-9]\+?\s*years)\b/i.test(jobDescription);
+    const analysis = await analyzeJobWithGemini({
+      jobUrl,
+      jobDescription,
+      profile,
+    });
 
     res.json({
-      companyName: companyMatch ? companyMatch[1].trim() : "",
-      jobTitle: roleMatch ? roleMatch[1].trim() : firstLines[0]?.slice(0, 80) || "",
-      jdKeywords: keywords,
-      matchScore: score,
-      verdict,
+      companyName: textValue(analysis.companyName),
+      jobTitle: textValue(analysis.jobTitle),
+      jdKeywords: Array.isArray(analysis.jdKeywords)
+        ? analysis.jdKeywords.map(textValue).filter(Boolean).slice(0, 25)
+        : [],
+      matchScore: Math.min(100, Math.max(0, Number(analysis.matchScore) || 0)),
+      verdict: allowedVerdicts.includes(analysis.verdict) ? analysis.verdict : "Not checked",
       source,
-      redFlags: seniorRole ? "The role may require senior-level experience." : "",
-      nextBestAction: missing.length
-        ? `Verify or improve these skills before applying: ${missing.join(", ")}.`
-        : "Tailor your resume with evidence for the matched skills, then apply.",
+      redFlags: textValue(analysis.redFlags),
+      nextBestAction: textValue(analysis.nextBestAction),
+      analysisSummary: textValue(analysis.analysisSummary),
     });
   } catch (error) {
-    res.status(500).json({ message: "Could not analyze this job description" });
+    console.error("Gemini analysis failed:", error.message);
+    res.status(500).json({ message: error.message || "Could not analyze this job description" });
   }
 };
 

@@ -21,6 +21,7 @@ CareerTrack Lite is a simple full-stack job application tracker. Users can creat
 - Student career profile for target roles, skills and links
 - Evidence-based job description match scan
 - Application assistant that fills keywords, match score, verdict and next action from a pasted JD
+- Gemini 2.5 Flash structured analysis with server-side API key protection
 - Detailed 22-field application workflow tracker and matching CSV export
 - Weekly goal tracking with a maximum of three focused goals
 - Responsive pages with loading, error and empty states
@@ -74,6 +75,8 @@ PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 CLIENT_URL=http://localhost:5173
+GEMINI_API_KEY=your_google_ai_studio_api_key
+GEMINI_MODEL=gemini-2.5-flash
 ```
 
 Start the backend:

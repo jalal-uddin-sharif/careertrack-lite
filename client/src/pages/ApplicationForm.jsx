@@ -103,7 +103,15 @@ function ApplicationForm({ onLogout }) {
           jobDescription: formData.jobDescription,
         }),
       })
-      const data = await response.json()
+      const responseText = await response.text()
+      let data
+
+      try {
+        data = JSON.parse(responseText)
+      } catch {
+        throw new Error('The analysis server returned an invalid response. Please try again.')
+      }
+
       if (!response.ok) throw new Error(data.message)
 
       setFormData((current) => ({
@@ -113,7 +121,11 @@ function ApplicationForm({ onLogout }) {
         jobTitle: data.jobTitle || current.jobTitle,
         jdKeywords: data.jdKeywords.join(', '),
       }))
-      setAssistantMessage('Assistant analysis complete. Please review the filled fields before saving.')
+      setAssistantMessage(
+        data.analysisSummary
+          ? `Gemini analysis: ${data.analysisSummary}`
+          : 'Gemini analysis complete. Please review the filled fields before saving.',
+      )
     } catch (err) {
       setError(err.message || 'Could not analyze this job.')
     } finally {
